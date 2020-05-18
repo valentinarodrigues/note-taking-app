@@ -7,12 +7,17 @@ data = process.argv;
 //Customize yargs version
 yargs.version('1.0.9');
 
-
 // Add list command
 // node app.js add --title="add" --body="Need to send mail" 
 yargs.command({
     command: "add",
     describe: "Adds a note",
+    builder: {
+        title: 
+        { describe: "Add title and body to notes",
+            demandOption: true,
+            type:'string'}
+    },
     handler: function(argv) {
         console.log('Adding to notes')
         notes.addNotes(argv.title, argv.body)
@@ -23,8 +28,16 @@ yargs.command({
 yargs.command({
     command: "remove",
     describe: "Remove from a list",
-    handler: function(){
-        console.log('Remove from a note')
+    builder:{
+        title:
+        { 
+            describe: "Remove title from list",
+            demandOption: true,
+            type: 'string'}
+    },
+    handler: function(argv){
+        console.log('Remove a note');
+        notes.removeNotes(argv.title);
     }
 })
 
