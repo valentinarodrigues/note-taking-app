@@ -77,6 +77,6 @@ yargs.command({
     }
 })
 
-
-// console.log(yargs.argv);
+// Need to use this to print args
+console.log(yargs.argv);
 // console.log(messagechalk(data));
