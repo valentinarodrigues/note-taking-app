@@ -3,7 +3,6 @@ const fs = require('fs');
 fs.writeFileSync('notes.txt', 'Ms. Node is writing in your file!\n');
 fs.appendFileSync('notes.txt', 'I am not a ghost! LOL\n');
 
-
 addNotes = (title, body) => {
     let listNotes = []
     listNotes = getNotes();
@@ -17,15 +16,12 @@ addNotes = (title, body) => {
                 'body': body
             }
         );
-        console.log('Not a duplicate note');
-        pushJSON(fileName='notes.json', listNotes);
-       
+        pushJSON(fileName='notes.json', listNotes);  
+        console.log(chalk.bold.green.underline('Note added successfully!'))
     }else{
-        console.log('Duplcate note cannot be added')
+        console.log(chalk.bold.red.underline('Duplicate note cannot be added!'))
     }
-    
 }
-
 
 pushJSON = (fileName, listNotes) => {
     const pushedData = JSON.stringify(listNotes)
@@ -44,36 +40,23 @@ getNotes = ()=> {
 }
 
 removeNotes = (title) => {
-    console.log('Removing note', title)
     // check if the notes exits
     const notesList = getNotes()
     if (notesList.length === 0){
-        console.log('Notes empty') 
+        console.log(chalk.bold.red('Notes empty'))
     }else{
         removeNote = notesList.filter(function(note){
            return note.title !== title; 
         })
-        console.log(removeNote)
-        pushJSON(fileName='notes.json', removeNote)
-        
-
+        if(removeNote.length == 0){
+            pushJSON(fileName='notes.json', removeNote)
+            console.log(chalk.bold.green('Note removed'))
+        }else{
+            console.log(chalk.bold.red('Note not found'))
+        }    
     }
 }
 module.exports = {
     getNotes: getNotes, 
     addNotes: addNotes, 
     removeNotes: removeNotes}
-
-
-// const name = 'VR27'
-// const getSum = function(a,  b){
-//     return a+b;
-// }
-// module.exports = getSum
-
-// summation = notes(1,2)
-// console.log(summation)
-
-// data = notes()
-// console.log(data)
-
