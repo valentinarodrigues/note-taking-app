@@ -1,11 +1,13 @@
 // const validator = require('validator');
 const messagechalk = require('./messageschalk');
 const yargs = require('yargs');
-const notes = require('./notes')
+const notes = require('./notes');
+const { describe } = require('yargs');
 data = process.argv;
 
 //Customize yargs version
 yargs.version('1.0.9');
+// node app.js --version
 
 // Add list command
 // node app.js add --title="add" --body="Need to send mail" 
@@ -13,12 +15,19 @@ yargs.command({
     command: "add",
     describe: "Adds a note",
     builder: {
-        title: 
-        { describe: "Add title and body to notes",
+        title:
+        {
+            describe: "Add title to notes",
             demandOption: true,
-            type:'string'}
+            type: 'string'
+        },
+        body: {
+            describe: 'Add body to notes',
+            demandOption: true,
+            type: 'string'
+        }
     },
-    handler: function(argv) {
+    handler: function (argv) {
         console.log('Adding to notes')
         notes.addNotes(argv.title, argv.body)
     }
@@ -28,15 +37,15 @@ yargs.command({
 yargs.command({
     command: "remove",
     describe: "Remove from a list",
-    builder:{
+    builder: {
         title:
-        { 
+        {
             describe: "Remove title from list",
             demandOption: true,
-            type: 'string'}
+            type: 'string'
+        }
     },
-    handler: function(argv){
-        console.log('Remove a note');
+    handler: function (argv) {
         notes.removeNotes(argv.title);
     }
 })
@@ -45,7 +54,7 @@ yargs.command({
 yargs.command({
     command: "list",
     describe: "Lists the notes",
-    builder:{
+    builder: {
         // node app.js --title "What a beautiful day!"
         title: {
             describe: "Name of the title",
@@ -60,9 +69,9 @@ yargs.command({
         }
     },
     // important to pass argv as a parameter
-    handler: function(argv){
+    handler: function (argv) {
         console.log("Listing the notes");
-        
+
         console.log(messagechalk(argv.title));
         console.log(messagechalk(argv.body));
     }
@@ -72,11 +81,12 @@ yargs.command({
 yargs.command({
     command: "read",
     describe: "Reads the list",
-    handler: function(){
+    handler: function () {
         console.log('Reading the list')
     }
 })
 
 // Need to use this to print args
-console.log(yargs.argv);
+yargs.parse()
+// console.log(yargs.argv);
 // console.log(messagechalk(data));
